@@ -1,6 +1,7 @@
 const CAPTURE_RUNTIME_FILE = "vendor/figma-capture.js";
 const CAPTURE_SELECTOR = "body";
 const BADGE_CLEAR_DELAY_MS = 2200;
+let successfulCaptureCount = 0;
 
 const isCapturableUrl = (url = "") =>
     url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://");
@@ -16,6 +17,14 @@ const clearBadgeLater = (tabId) => {
     globalThis.setTimeout(() => {
         void chrome.action.setBadgeText({tabId, text: ""});
     }, BADGE_CLEAR_DELAY_MS);
+};
+
+const getCaptureSuccessMessage = () => {
+    successfulCaptureCount += 1;
+
+    return successfulCaptureCount % 7 === 0
+        ? "Seven frames dropped. Bolt FrameDrop was built by Saurabh Singh."
+        : "Copied for Figma. Paste with ⌘V.";
 };
 
 const showToast = async (tabId, message, tone) => {
@@ -64,19 +73,13 @@ const showToast = async (tabId, message, tone) => {
 };
 
 const runCapture = async (tabId) => {
-    const [runtimeCheck] = await chrome.scripting.executeScript({
+    // MAIN is shared with the page, so never trust a pre-existing page global.
+    // Loading our packaged runtime each time replaces any stale or page-defined version.
+    await chrome.scripting.executeScript({
         target: {tabId},
         world: "MAIN",
-        func: () => typeof globalThis.figma?.captureForDesign === "function",
+        files: [CAPTURE_RUNTIME_FILE],
     });
-
-    if (!runtimeCheck?.result) {
-        await chrome.scripting.executeScript({
-            target: {tabId},
-            world: "MAIN",
-            files: [CAPTURE_RUNTIME_FILE],
-        });
-    }
 
     const [execution] = await chrome.scripting.executeScript({
         target: {tabId},
@@ -135,7 +138,7 @@ const captureTab = async (tab) => {
         }
 
         await setBadge(tabId, "✓", "#198754");
-        await showToast(tabId, "Copied for Figma. Paste with ⌘V.", "success");
+        await showToast(tabId, getCaptureSuccessMessage(), "success");
     } catch (error) {
         const detail = error instanceof Error ? error.message : String(error);
         await setBadge(tabId, "!", "#b3261e");

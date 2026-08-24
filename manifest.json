@@ -1,15 +1,27 @@
 {
   "manifest_version": 3,
   "name": "Bolt FrameDrop",
-  "description": "Copy the current web page into Figma from any normal website.",
+  "description": "Copy the current web page into Figma as editable layers. Built by Saurabh Singh.",
   "version": "0.1.0",
   "minimum_chrome_version": "102",
   "permissions": ["activeTab", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "action": {
-    "default_title": "Copy page for Figma"
+    "default_title": "Copy page for Figma · Built by Saurabh Singh",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
   },
   "commands": {
     "_execute_action": {

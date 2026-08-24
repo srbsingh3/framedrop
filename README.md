@@ -2,6 +2,8 @@
 
 A small, local-only Chrome extension that copies the current web page as editable Figma layers.
 
+Built by Saurabh Singh.
+
 It is app-agnostic: it works against the rendered DOM of normal `http://`, `https://`, and (when enabled) `file://` pages. It does not need repository access or a localhost helper.
 
 ## Install
@@ -37,13 +39,19 @@ Chrome blocks extensions on browser-owned pages such as `chrome://` and the Chro
 
 ## Updating the Figma runtime
 
-Run:
+First download and validate the current runtime without changing any files:
 
 ```sh
 ./scripts/update-capture-runtime.sh
 ```
 
-Then reload the extension from `chrome://extensions`. This fetches the current runtime from Figma's official MCP endpoint and refreshes `RUNTIME_SOURCE.md` with its checksum.
+Review the reported checksum and then apply that exact version:
+
+```sh
+./scripts/update-capture-runtime.sh --apply <sha256>
+```
+
+The script fetches from Figma's official MCP endpoint over HTTPS, checks that the result is valid JavaScript with the required capture API, and only replaces the bundled runtime when its checksum matches the value you approved. Review the resulting Git diff before committing, then reload the extension from `chrome://extensions`.
 
 ## Uninstall
 
