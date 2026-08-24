@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Bolt FrameDrop",
+  "description": "Copy the current web page into Figma from any normal website.",
+  "version": "0.1.0",
+  "minimum_chrome_version": "102",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Copy page for Figma"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+F",
+        "mac": "Alt+Shift+F"
+      },
+      "description": "Copy the current page for Figma"
+    }
+  }
+}
