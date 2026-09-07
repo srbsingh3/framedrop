@@ -15,7 +15,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Copy this page into Figma — click or press ⌥⇧F",
+    "default_title": "Click to copy this page into Figma - or press ⌥⇧F",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",
