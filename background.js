@@ -1,9 +1,9 @@
 const CAPTURE_RUNTIME_FILE = "vendor/figma-capture.js";
-const CAPTURE_SELECTOR = "body";
+const CAPTURE_ENTRY_FILE = "capture-entry.js";
 const BADGE_CLEAR_DELAY_MS = 2200;
 
 const isCapturableUrl = (url = "") =>
-    url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://");
+    url.startsWith("http://") || url.startsWith("https://");
 
 const setBadge = async (tabId, text, color) => {
     await Promise.all([
@@ -19,41 +19,25 @@ const clearBadgeLater = (tabId) => {
 };
 
 const runCapture = async (tabId) => {
-    // MAIN is shared with the page, so never trust a pre-existing page global.
-    // Loading our packaged runtime each time replaces any stale or page-defined version.
-    await chrome.scripting.executeScript({
+    // These execute together in the extension-private isolated world. That avoids a
+    // cross-injection global handoff and prevents the page from replacing Figma's API.
+    const executions = await chrome.scripting.executeScript({
         target: {tabId},
-        world: "MAIN",
-        files: [CAPTURE_RUNTIME_FILE],
+        world: "ISOLATED",
+        files: [CAPTURE_RUNTIME_FILE, CAPTURE_ENTRY_FILE],
     });
 
-    const [execution] = await chrome.scripting.executeScript({
-        target: {tabId},
-        world: "MAIN",
-        args: [CAPTURE_SELECTOR],
-        func: async (selector) => {
-            const captureForDesign = globalThis.figma?.captureForDesign;
+    const result = executions[0]?.result;
 
-            if (typeof captureForDesign !== "function") {
-                return {
-                    ok: false,
-                    error: "The Figma capture runtime did not initialize.",
-                };
-            }
+    if (result === undefined) {
+        return {
+            ok: false,
+            error:
+                "Chrome did not return a capture status. Reload the extension and try the page again.",
+        };
+    }
 
-            try {
-                await captureForDesign({selector, delayMs: 150});
-                return {ok: true};
-            } catch (error) {
-                return {
-                    ok: false,
-                    error: error instanceof Error ? error.message : String(error),
-                };
-            }
-        },
-    });
-
-    return execution?.result ?? {ok: false, error: "Chrome returned no capture result."};
+    return result;
 };
 
 const captureTab = async (tab) => {
