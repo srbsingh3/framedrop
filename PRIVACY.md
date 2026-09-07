@@ -1,30 +1,31 @@
-# Bolt FrameDrop Privacy
+# Bolt FrameDrop privacy
 
-Support URL: `BOLT_SUPPORT_URL`
+Bolt FrameDrop copies the current web page into your clipboard so you can paste it into Figma as editable layers.
 
-Privacy URL: `BOLT_PRIVACY_URL`
+## What it accesses
 
-Security URL: `BOLT_SECURITY_URL`
+When you click FrameDrop, it reads the rendered content of that page: its text, layout, styles, and the assets needed to recreate it. This can include content further down a long page, not only what is visible on screen.
 
-Bolt FrameDrop runs only when the user clicks the extension icon or presses its shortcut.
+It does not intentionally copy typed form values, passwords, checkbox or radio state, or selected options. But sensitive information can appear as ordinary text or imagery, so use FrameDrop only on pages you are allowed to put into a design file.
 
-It uses only `activeTab` and `scripting`.
+## Where it goes
 
-It does not use:
+The capture is created on your device and copied to your local clipboard. FrameDrop does not upload it to a Bolt service, a FrameDrop service, or a Figma upload endpoint.
 
-- analytics or telemetry transmission
-- storage
-- user accounts
-- remote code
-- a Figma upload endpoint
-- a Figma proxy
+The capture may request page-referenced assets directly from their original locations so the design can be reconstructed. It does not use a proxy for those requests.
 
-The extension captures the current `http://` or `https://` page body to the local clipboard so the user can paste it into Figma.
+Nothing is sent to Figma until you choose to paste the result there. At that point, the content is handled by your Figma account and its applicable policies.
 
-It may fetch page-referenced assets directly from those pages only to reconstruct the capture.
+## What it does not do
 
-It strips typed form values, checked state, selected state, and passwords.
+- No account or sign-in
+- No analytics or cloud sync
+- No background monitoring or automatic capture
+- No stored capture history
+- No permanent access to every website
 
-Current DOM text and contenteditable content can still be included.
+## Permissions
 
-The capture stays local on the device until the user pastes it into Figma.
+FrameDrop uses `activeTab` to access only the page you choose, when you click the extension or use its shortcut. It uses `scripting` to run the bundled capture tool on that page.
+
+You can close the in-page capture bar at any time, remove the extension in `chrome://extensions`, or replace the clipboard contents to discard a capture.

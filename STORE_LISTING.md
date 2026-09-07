@@ -1,10 +1,6 @@
 # Bolt FrameDrop Store Listing
 
-Support URL: `BOLT_SUPPORT_URL`
-
-Privacy policy URL: `BOLT_PRIVACY_URL`
-
-Security URL: `BOLT_SECURITY_URL`
+For this internal release, the complete privacy and security statement is [PRIVACY.md](PRIVACY.md). Before Chrome Web Store publication, publish that same text at a Bolt-controlled URL and use it for the Store privacy-policy field.
 
 Short description:
 
@@ -39,5 +35,5 @@ Domain-private distribution steps:
 
 1. Publish only to the approved internal domain or managed Chrome environment.
 2. Restrict installation to the intended organization or domain group.
-3. Keep the privacy policy and support URLs on owned domains before release.
+3. Publish the complete text in `PRIVACY.md` on a Bolt-controlled URL before release.
 4. Verify the store disclosure text matches the actual local clipboard-only behavior.
