@@ -16,8 +16,8 @@ const UNSAFE_INLINE_QUICKSORT_FACTORY =
 const SAFE_QUICKSORT_FACTORY = "function Rr(r){return Nr(r)}";
 const SAFE_SVG_FETCH =
     "function Km(e){return w(this,null,function*(){let t=r=>w(this,null,function*(){return r.ok?Wm(yield r.text()):null});return Sn(e,t,AbortSignal.timeout(8e3)).catch(()=>null)})}";
-const SAFE_FORM_ATTRIBUTES =
-    'function Ub(e){let t={};for(let{name:n,value:r}of e.attributes){let o=n.toLowerCase();(Vb.has(o)||o.startsWith("aria-"))&&o!=="value"&&o!=="checked"&&o!=="selected"&&(t[n]=r)}return e instanceof HTMLVideoElement&&e.poster&&(t.poster=e.poster),(e instanceof HTMLImageElement||e instanceof HTMLVideoElement)&&e.currentSrc&&(t.currentSrc=e.currentSrc),e instanceof HTMLInputElement&&t.type==null&&(t.type=e.type),e instanceof HTMLOptionElement&&e.label&&(t.label=e.label),t}';
+const DESIGN_FORM_ATTRIBUTES =
+    'function Ub(e){let t={};for(let{name:n,value:r}of e.attributes){let o=n.toLowerCase();(Vb.has(o)||o.startsWith("aria-"))&&(t[n]=r)}return e instanceof HTMLVideoElement&&e.poster&&(t.poster=e.poster),(e instanceof HTMLImageElement||e instanceof HTMLVideoElement)&&e.currentSrc&&(t.currentSrc=e.currentSrc),e instanceof HTMLInputElement&&t.type==null&&(t.type=e.type),e instanceof HTMLInputElement&&(e.type==="checkbox"||e.type==="radio")&&(t.checked=String(e.checked),e.indeterminate&&(t.indeterminate="true")),e instanceof HTMLOptionElement&&(t.selected=String(e.selected),t.label=e.label),e instanceof HTMLInputElement&&e.type==="password"?delete t.value:(e instanceof HTMLInputElement&&Ru.has(e.type)||e instanceof HTMLTextAreaElement)&&(t.value=e.value),t}';
 const SAFE_CLIPBOARD_CAPTURE =
     'function ym(e={}){return w(this,null,function*(){let{selector:r="body",delayMs:i}=e;L.log("Starting clipboard capture...",{selector:r}),ro(),i&&i>0&&(L.log(`Waiting ${i}ms before capture...`),yield new Promise(c=>setTimeout(c,i)));try{let c=yield ir(r,!1);L.log("Copying to clipboard...");try{yield _s(c),L.log("Success! Capture copied to clipboard.")}catch(l){let d=et(l);return L.error("Clipboard error:",d),Mn(`Clipboard error: ${d}`),{success:!1,error:`Clipboard error: ${d}`}}}catch(c){let l=et(c);return L.error("Error:",l),l.includes("Element not found")?Pe():Mn(c instanceof Error?c:l),{success:!1,error:l}}let{promise:s,showSuccess:u}=Sm(r,!1);return u(),s})}';
 const STORED_CAPTURE_PREFERENCES =
@@ -38,9 +38,6 @@ const FORBIDDEN_MARKERS = [
     "window.open(",
     "https://cors-image-proxy.figma.com",
     "new Function",
-    ".value=e.value",
-    ".checked=String(",
-    ".selected=String(",
     "localStorage",
     "figma.capturePreferences",
     WORKER_SOURCE_MAP_COMMENT,
@@ -176,8 +173,8 @@ export const assertClipboardOnlyRuntime = (source) => {
         throw new Error("Runtime does not contain the reviewed clipboard-only entry point.");
     }
 
-    if (!source.includes(SAFE_FORM_ATTRIBUTES)) {
-        throw new Error("Runtime does not contain the reviewed form-state redaction.");
+    if (!source.includes(DESIGN_FORM_ATTRIBUTES)) {
+        throw new Error("Runtime does not preserve reviewed form-state capture.");
     }
 
     for (const marker of FORBIDDEN_MARKERS) {
@@ -221,15 +218,6 @@ export const sanitizeCaptureRuntime = (source) => {
         sanitized = replaceFunction(sanitized, "Km", SAFE_SVG_FETCH);
         sanitized = sanitized.replace(FIGMA_PROXY_ASSIGNMENT, "");
         assertValidJavaScript(sanitized, "removing the Figma image proxy");
-    }
-
-    if (
-        sanitized.includes(".value=e.value") ||
-        sanitized.includes(".checked=String(") ||
-        sanitized.includes(".selected=String(")
-    ) {
-        sanitized = replaceFunction(sanitized, "Ub", SAFE_FORM_ATTRIBUTES);
-        assertValidJavaScript(sanitized, "redacting form state");
     }
 
     if (!sanitized.includes(SAFE_CLIPBOARD_CAPTURE)) {

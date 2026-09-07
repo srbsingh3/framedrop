@@ -16,7 +16,7 @@ const unsafeRuntimeFixture = [
     "function Sn(e,t){return fetch(e).then(t)}",
     'var Vm;Vm="https://cors-image-proxy.figma.com";',
     "function Km(e){return Promise.resolve(null).then(n=>n||Sn(`${Vm}?url=${encodeURIComponent(e)}`,t))}",
-    'function Ub(e){let t={};return t.value=e.value,t.checked=String(e.checked),t.selected=String(e.selected),t}',
+    'function Ub(e){let t={};for(let{name:n,value:r}of e.attributes){let o=n.toLowerCase();(Vb.has(o)||o.startsWith("aria-"))&&(t[n]=r)}return e instanceof HTMLVideoElement&&e.poster&&(t.poster=e.poster),(e instanceof HTMLImageElement||e instanceof HTMLVideoElement)&&e.currentSrc&&(t.currentSrc=e.currentSrc),e instanceof HTMLInputElement&&t.type==null&&(t.type=e.type),e instanceof HTMLInputElement&&(e.type==="checkbox"||e.type==="radio")&&(t.checked=String(e.checked),e.indeterminate&&(t.indeterminate="true")),e instanceof HTMLOptionElement&&(t.selected=String(e.selected),t.label=e.label),e instanceof HTMLInputElement&&e.type==="password"?delete t.value:(e instanceof HTMLInputElement&&Ru.has(e.type)||e instanceof HTMLTextAreaElement)&&(t.value=e.value),t}',
     'var Kb=["figma.com"];function Gb(e){return e}function Yb(){return location.hash.includes("figmacapture")?"figmaendpoint":null}function Lu({startMultiCaptureAutomaticFlow:e}){return e()}',
     "var Ne=class extends Error{};",
     'function Kt(e){window.open(e,"_blank")}',
@@ -47,10 +47,11 @@ test("sanitizer removes every non-clipboard capability from an upstream-shaped r
     assert.doesNotThrow(() => assertClipboardOnlyRuntime(sanitized));
     assert.match(sanitized, /captureForDesign=ym/);
     assert.match(sanitized, /function Rr\(r\)\{return Nr\(r\)\}/);
-    assert.match(sanitized, /o!=="value"&&o!=="checked"&&o!=="selected"/);
+    assert.match(sanitized, /t\.checked=String\(e\.checked\)/);
+    assert.match(sanitized, /t\.selected=String\(e\.selected\)/);
+    assert.match(sanitized, /e\.type==="password"\?delete t\.value/);
     assert.doesNotMatch(sanitized, /figmacapture|figmaendpoint|captureId|method:"POST"/);
     assert.doesNotMatch(sanitized, /cors-image-proxy|new Function|window\.open\(/);
-    assert.doesNotMatch(sanitized, /\.value=e\.value|\.checked=String\(|\.selected=String\(/);
     assert.doesNotMatch(sanitized, /localStorage|figma\.capturePreferences/);
 });
 
@@ -69,7 +70,6 @@ test("runtime assertion fails closed if a forbidden capability returns", async (
         'method:"POST"',
         "https://cors-image-proxy.figma.com",
         "new Function",
-        ".value=e.value",
     ]) {
         assert.throws(() => assertClipboardOnlyRuntime(`${runtime}${marker}`));
     }

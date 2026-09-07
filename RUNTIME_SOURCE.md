@@ -6,7 +6,7 @@ Fetched: 2026-08-24T08:46:59Z
 
 Upstream SHA-256: 21036217c289b95e49a3f597f03fdfa95da0b1741c4658164cc1c36f8e20f772
 
-Packaged SHA-256: 99dd4479070d38e7ff261b5bc85dd723dd53f3ca7d09a2db0796631509dbd14c
+Packaged SHA-256: a6ae74c60d0831d1aa1e9eb781faa8036978b43141ed3b45180e4c3780a74cfa
 
 The packaged runtime is a reviewed, reduced copy of Figma's HTML-to-design capture script. `scripts/sanitize-capture-runtime.mjs` makes these pinned, fail-closed changes:
 
@@ -16,7 +16,7 @@ The packaged runtime is a reviewed, reduced copy of Figma's HTML-to-design captu
 - removes dynamic `new Function` evaluation
 - removes page-origin local storage for capture UI preferences
 - removes stale source-map comments
-- removes live form values and checked or selected state from captured attributes
+- preserves live form values and control state for design fidelity, while excluding password-field values
 - forces `captureForDesign` to use its local clipboard path
 
 FrameDrop injects the result in Chrome's isolated extension world and invokes only `captureForDesign` for the page body.

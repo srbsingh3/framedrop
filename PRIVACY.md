@@ -6,7 +6,7 @@ Bolt FrameDrop copies the current web page into your clipboard so you can paste 
 
 When you click FrameDrop, it reads the rendered content of that page: its text, layout, styles, and the assets needed to recreate it. This can include content further down a long page, not only what is visible on screen.
 
-It does not intentionally copy typed form values, passwords, checkbox or radio state, or selected options. But sensitive information can appear as ordinary text or imagery, so use FrameDrop only on pages you are allowed to put into a design file.
+It copies the current values and states of ordinary form controls so a design can reflect the state you see, including text fields, checkboxes, radio buttons, and selected options. Password-field values are excluded. Sensitive information can also appear as ordinary text or imagery, so use FrameDrop only on pages you are allowed to put into a design file.
 
 ## Where it goes
 

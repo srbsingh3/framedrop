@@ -18,7 +18,7 @@ It does not transmit analytics, use storage, create user accounts, download remo
 
 It may fetch page-referenced assets directly from the page only to reconstruct the capture.
 
-It strips typed form values, checked state, selected state, and passwords.
+It preserves visible form values and control state for design fidelity, while excluding password-field values.
 
 Current DOM text and contenteditable content can still be included.
 
