@@ -1,22 +1,8 @@
 const CAPTURE_RUNTIME_FILE = "vendor/figma-capture.js";
 const CAPTURE_ENTRY_FILE = "capture-entry.js";
-const BADGE_CLEAR_DELAY_MS = 2200;
 
 const isCapturableUrl = (url = "") =>
     url.startsWith("http://") || url.startsWith("https://");
-
-const setBadge = async (tabId, text, color) => {
-    await Promise.all([
-        chrome.action.setBadgeText({tabId, text}),
-        chrome.action.setBadgeBackgroundColor({tabId, color}),
-    ]);
-};
-
-const clearBadgeLater = (tabId) => {
-    globalThis.setTimeout(() => {
-        void chrome.action.setBadgeText({tabId, text: ""});
-    }, BADGE_CLEAR_DELAY_MS);
-};
 
 const runCapture = async (tabId) => {
     // These execute together in the extension-private isolated world. That avoids a
@@ -48,12 +34,9 @@ const captureTab = async (tab) => {
     }
 
     if (!isCapturableUrl(tab.url)) {
-        await setBadge(tabId, "!", "#b3261e");
-        clearBadgeLater(tabId);
+        console.warn("Bolt FrameDrop can capture only http:// and https:// pages.");
         return;
     }
-
-    await setBadge(tabId, "…", "#5551ff");
 
     try {
         const result = await runCapture(tabId);
@@ -61,13 +44,8 @@ const captureTab = async (tab) => {
         if (!result.ok) {
             throw new Error(result.error);
         }
-
-        await setBadge(tabId, "✓", "#198754");
     } catch (error) {
-        await setBadge(tabId, "!", "#b3261e");
         console.error("Bolt FrameDrop failed", error);
-    } finally {
-        clearBadgeLater(tabId);
     }
 };
 

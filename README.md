@@ -2,7 +2,7 @@
 
 A small Chrome extension that copies the current page into Figma as editable layers.
 
-Built by Saurabh Singh.
+Owner and maintainer: Saurabh Singh.
 
 It works on normal `http://` and `https://` pages. There is no settings UI or account flow.
 

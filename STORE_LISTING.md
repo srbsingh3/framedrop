@@ -1,5 +1,7 @@
 # Bolt FrameDrop Store Listing
 
+Internal owner and maintainer: Saurabh Singh.
+
 For this internal release, the complete privacy and security statement is [PRIVACY.md](PRIVACY.md). Before Chrome Web Store publication, publish that same text at a Bolt-controlled URL and use it for the Store privacy-policy field.
 
 Short description:

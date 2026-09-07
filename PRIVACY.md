@@ -2,6 +2,8 @@
 
 Bolt FrameDrop copies the current web page into your clipboard so you can paste it into Figma as editable layers.
 
+Internal owner and maintainer: Saurabh Singh.
+
 ## What it accesses
 
 When you click FrameDrop, it reads the rendered content of that page: its text, layout, styles, and the assets needed to recreate it. This can include content further down a long page, not only what is visible on screen.
