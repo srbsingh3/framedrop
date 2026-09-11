@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="capture-menu.css">
+    <title>FrameDrop</title>
+  </head>
+  <body>
+    <main>
+      <header class="brand">
+        <img class="brand-mark" src="icons/icon-32.png" width="20" height="20" alt="" />
+        <span class="brand-name">FrameDrop</span>
+      </header>
+
+      <h1>Copy into Figma</h1>
+      <p class="intro">Choose how to preserve the page’s current state.</p>
+
+      <div class="options" role="group" aria-label="Capture mode">
+        <button class="capture-option" type="button" data-capture-mode="current">
+          <span class="option-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M4 10h16" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+          </span>
+          <span class="option-copy">
+            <strong>Current layout</strong>
+            <span>Copy the page exactly as it is arranged now.</span>
+          </span>
+          <span class="keys" aria-label="Option Shift F">
+            <kbd>⌥</kbd><kbd>⇧</kbd><kbd>F</kbd>
+          </span>
+        </button>
+
+        <button class="capture-option" type="button" data-capture-mode="expanded">
+          <span class="option-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 4H4v5M15 20h5v-5M4 4l6 6M20 20l-6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="option-copy">
+            <strong>Expanded layout</strong>
+            <span>Temporarily open clipped sections, then restore them.</span>
+          </span>
+          <span class="keys" aria-label="Option Shift G">
+            <kbd>⌥</kbd><kbd>⇧</kbd><kbd>G</kbd>
+          </span>
+        </button>
+      </div>
+
+      <p class="status" role="status" aria-live="polite"></p>
+    </main>
+    <script src="capture-menu.js"></script>
+  </body>
+</html>

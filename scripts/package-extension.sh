@@ -7,6 +7,7 @@ EXTENSION_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 MANIFEST_PATH="$EXTENSION_DIR/manifest.json"
 BACKGROUND_PATH="$EXTENSION_DIR/background.js"
 CAPTURE_ENTRY_PATH="$EXTENSION_DIR/capture-entry.js"
+CAPTURE_MENU_SCRIPT_PATH="$EXTENSION_DIR/capture-menu.js"
 RUNTIME_PATH="$EXTENSION_DIR/vendor/figma-capture.js"
 RUNTIME_NOTE_PATH="$EXTENSION_DIR/RUNTIME_SOURCE.md"
 SANITIZER_PATH="$EXTENSION_DIR/scripts/sanitize-capture-runtime.mjs"
@@ -17,6 +18,9 @@ ALLOWLIST=(
     "manifest.json"
     "background.js"
     "capture-entry.js"
+    "capture-menu.html"
+    "capture-menu.js"
+    "capture-menu.css"
     "vendor/figma-capture.js"
     "icons/icon-16.png"
     "icons/icon-32.png"
@@ -72,6 +76,7 @@ done
 python3 -m json.tool "$MANIFEST_PATH" >/dev/null
 node --check "$BACKGROUND_PATH"
 node --check "$CAPTURE_ENTRY_PATH"
+node --check "$CAPTURE_MENU_SCRIPT_PATH"
 node --check "$SANITIZER_PATH"
 node --test "$SANITIZER_TEST_PATH"
 
@@ -113,6 +118,9 @@ allowlist = [
     "manifest.json",
     "background.js",
     "capture-entry.js",
+    "capture-menu.html",
+    "capture-menu.js",
+    "capture-menu.css",
     "vendor/figma-capture.js",
     "icons/icon-16.png",
     "icons/icon-32.png",

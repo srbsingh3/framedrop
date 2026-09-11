@@ -17,7 +17,10 @@ It works on normal `http://` and `https://` pages. There is no settings UI or ac
 ## Use
 
 1. Open the page and reach the exact UI state you want.
-2. Click the extension icon, or press **Option+Shift+F**. The shortcut is best for open menus and popovers.
+2. Click the extension icon and choose a capture mode:
+   - **Current layout** preserves the page as it is arranged now.
+   - **Expanded layout** temporarily opens clipped or scrollable sections, captures them, then restores the page.
+   You can also press **Option+Shift+F** for Current layout or **Option+Shift+G** for Expanded layout. Shortcuts are best for open menus and popovers.
 3. Wait for the green check and confirmation message.
 4. Paste into Figma with **Cmd+V**.
 
@@ -57,7 +60,7 @@ The package contains only the manifest, background script, capture entry point, 
 
 1. Load the unpacked folder in Chrome.
 2. Open a normal `http://` or `https://` page.
-3. Click the extension icon or press **Option+Shift+F**.
+3. Click the extension icon and test both capture modes, or use **Option+Shift+F** and **Option+Shift+G**.
 4. Wait for the green check.
 5. Paste into Figma and confirm the page structure appears as editable layers.
 

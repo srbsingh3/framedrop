@@ -1,12 +1,25 @@
 const CAPTURE_RUNTIME_FILE = "vendor/figma-capture.js";
 const CAPTURE_ENTRY_FILE = "capture-entry.js";
+const CAPTURE_MODES = {
+    CURRENT: "current",
+    EXPANDED: "expanded",
+};
 
 const isCapturableUrl = (url = "") =>
     url.startsWith("http://") || url.startsWith("https://");
 
-const runCapture = async (tabId) => {
+const runCapture = async (tabId, mode) => {
     // These execute together in the extension-private isolated world. That avoids a
     // cross-injection global handoff and prevents the page from replacing Figma's API.
+    await chrome.scripting.executeScript({
+        target: {tabId},
+        world: "ISOLATED",
+        func: (captureMode) => {
+            globalThis.__frameDropCaptureMode = captureMode;
+        },
+        args: [mode],
+    });
+
     const executions = await chrome.scripting.executeScript({
         target: {tabId},
         world: "ISOLATED",
@@ -26,29 +39,63 @@ const runCapture = async (tabId) => {
     return result;
 };
 
-const captureTab = async (tab) => {
+const captureTab = async (tab, mode = CAPTURE_MODES.CURRENT) => {
     const tabId = tab.id;
 
     if (tabId === undefined) {
-        return;
+        throw new Error("No active tab is available to capture.");
     }
 
     if (!isCapturableUrl(tab.url)) {
-        console.warn("FrameDrop can capture only http:// and https:// pages.");
-        return;
+        throw new Error("FrameDrop can capture only http:// and https:// pages.");
     }
 
     try {
-        const result = await runCapture(tabId);
+        const result = await runCapture(tabId, mode);
 
         if (!result.ok) {
             throw new Error(result.error);
         }
+
+        return result;
     } catch (error) {
         console.error("FrameDrop failed", error);
+        throw error;
     }
 };
 
-chrome.action.onClicked.addListener((tab) => {
-    void captureTab(tab);
+const captureActiveTab = async (mode) => {
+    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+
+    if (!tab) {
+        return {ok: false, error: "No active tab is available to capture."};
+    }
+
+    return captureTab(tab, mode);
+};
+
+chrome.commands.onCommand.addListener((command) => {
+    const mode =
+        command === "capture-expanded-layout" ? CAPTURE_MODES.EXPANDED : CAPTURE_MODES.CURRENT;
+
+    void captureActiveTab(mode);
+});
+
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (message?.type !== "capture") {
+        return;
+    }
+
+    const mode = message.mode === CAPTURE_MODES.EXPANDED ? CAPTURE_MODES.EXPANDED : CAPTURE_MODES.CURRENT;
+
+    void captureActiveTab(mode)
+        .then(() => sendResponse({ok: true}))
+        .catch((error) =>
+            sendResponse({
+                ok: false,
+                error: error instanceof Error ? error.message : String(error),
+            }),
+        );
+
+    return true;
 });
