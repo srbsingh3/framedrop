@@ -1,8 +1,6 @@
-# Bolt FrameDrop privacy
+# FrameDrop privacy
 
-Bolt FrameDrop copies the current web page into your clipboard so you can paste it into Figma as editable layers.
-
-Internal owner and maintainer: Saurabh Singh.
+FrameDrop copies the current web page into your clipboard so you can paste it into Figma as editable layers.
 
 ## What it accesses
 
@@ -12,11 +10,13 @@ It copies the current values and states of ordinary form controls so a design ca
 
 ## Where it goes
 
-The capture is created on your device and copied to your local clipboard. FrameDrop does not upload it to a Bolt service, a FrameDrop service, or a Figma upload endpoint.
+The capture is created on your device and copied to your local clipboard. FrameDrop does not upload it to a FrameDrop service or a Figma upload endpoint.
 
 The capture may request page-referenced assets directly from their original locations so the design can be reconstructed. It does not use a proxy for those requests.
 
 Nothing is sent to Figma until you choose to paste the result there. At that point, the content is handled by your Figma account and its applicable policies.
+
+FrameDrop uses website content only to provide the capture you explicitly start. It does not sell or transfer that content to third parties, use it for advertising or profiling, or use it for any purpose unrelated to the capture.
 
 ## What it does not do
 

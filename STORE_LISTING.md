@@ -1,8 +1,6 @@
-# Bolt FrameDrop Store Listing
+# FrameDrop Store Listing
 
-Internal owner and maintainer: Saurabh Singh.
-
-For this internal release, the complete privacy and security statement is [PRIVACY.md](PRIVACY.md). Before Chrome Web Store publication, publish that same text at a Bolt-controlled URL and use it for the Store privacy-policy field.
+The complete privacy and security statement is [PRIVACY.md](PRIVACY.md). Before Chrome Web Store publication, publish that same text at a publicly accessible URL you control and use it for the Store privacy-policy field.
 
 Short description:
 
@@ -10,7 +8,7 @@ Copy the current web page body into Figma as editable layers.
 
 Long description:
 
-Bolt FrameDrop is a one-click capture tool for the active `http://` or `https://` page.
+FrameDrop is a one-click capture tool for the active `http://` or `https://` page.
 
 Use the extension icon or `Alt+Shift+F` to copy the current page body to the local clipboard, then paste it into Figma.
 
@@ -33,9 +31,7 @@ Recommended listing notes:
 - No cloud sync
 - No account sign-in
 
-Domain-private distribution steps:
+Public distribution steps:
 
-1. Publish only to the approved internal domain or managed Chrome environment.
-2. Restrict installation to the intended organization or domain group.
-3. Publish the complete text in `PRIVACY.md` on a Bolt-controlled URL before release.
-4. Verify the store disclosure text matches the actual local clipboard-only behavior.
+1. Publish the complete text in `PRIVACY.md` at a public URL before release.
+2. Verify the Store privacy disclosures match the actual local clipboard-only behavior.

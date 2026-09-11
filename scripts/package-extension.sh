@@ -86,8 +86,8 @@ fi
 mkdir -p "$DIST_DIR"
 staging_dir="$(mktemp -d "$DIST_DIR/.package-staging.XXXXXX")"
 output_dir="$(mktemp -d "$DIST_DIR/.package-output.XXXXXX")"
-output_zip="$output_dir/bolt-framedrop-$manifest_version.zip"
-final_zip="$DIST_DIR/bolt-framedrop-$manifest_version.zip"
+output_zip="$output_dir/framedrop-$manifest_version.zip"
+final_zip="$DIST_DIR/framedrop-$manifest_version.zip"
 
 cleanup() {
     rm -rf "$staging_dir" "$output_dir"

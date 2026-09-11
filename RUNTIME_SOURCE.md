@@ -22,5 +22,3 @@ The packaged runtime is a reviewed, reduced copy of Figma's HTML-to-design captu
 FrameDrop injects the result in Chrome's isolated extension world and invokes only `captureForDesign` for the page body.
 
 The runtime is bundled so Chrome can execute it without downloading executable code during capture. It never updates itself. A newer Figma runtime requires a deliberate code review, extension version bump, and Chrome Web Store release.
-
-Figma's public documentation describes the clipboard capture workflow, but it does not clearly grant permission to redistribute a modified copy of this script. Confirm that right with Bolt Legal or Figma before publishing, even for domain-private distribution.

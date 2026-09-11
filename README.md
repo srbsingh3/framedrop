@@ -1,4 +1,4 @@
-# Bolt FrameDrop
+# FrameDrop
 
 A small Chrome extension that copies the current page into Figma as editable layers.
 
@@ -11,8 +11,8 @@ It works on normal `http://` and `https://` pages. There is no settings UI or ac
 1. Open `chrome://extensions`.
 2. Turn on **Developer mode**.
 3. Click **Load unpacked**.
-4. Select this Bolt FrameDrop folder.
-5. Pin **Bolt FrameDrop** from Chrome's Extensions menu if you want the toolbar button visible.
+4. Select this FrameDrop folder.
+5. Pin **FrameDrop** from Chrome's Extensions menu if you want the toolbar button visible.
 
 ## Use
 
@@ -21,7 +21,7 @@ It works on normal `http://` and `https://` pages. There is no settings UI or ac
 3. Wait for the green check and confirmation message.
 4. Paste into Figma with **Cmd+V**.
 
-If the shortcut is already assigned, open `chrome://extensions/shortcuts` and assign **Option+Shift+F** (or another shortcut) to **Bolt FrameDrop**.
+If the shortcut is already assigned, open `chrome://extensions/shortcuts` and assign **Option+Shift+F** (or another shortcut) to **FrameDrop**.
 
 ## Privacy and security
 
@@ -39,7 +39,7 @@ Chrome blocks extensions on browser-owned pages such as `chrome://` and the Chro
 
 ## Pinned runtime
 
-Bolt FrameDrop ships one reviewed copy of Figma's capture runtime. It does not check for, download, or execute newer runtime code while someone captures a page.
+FrameDrop ships one reviewed copy of Figma's capture runtime. It does not check for, download, or execute newer runtime code while someone captures a page.
 
 If Figma makes a breaking change, updating this copy is a deliberate new extension release: review the code, rebuild the package, and publish a new version through the Chrome Web Store.
 
@@ -63,4 +63,4 @@ The package contains only the manifest, background script, capture entry point, 
 
 ## Uninstall
 
-Remove **Bolt FrameDrop** from `chrome://extensions`, then delete this folder.
+Remove **FrameDrop** from `chrome://extensions`, then delete this folder.

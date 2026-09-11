@@ -34,7 +34,7 @@ const captureTab = async (tab) => {
     }
 
     if (!isCapturableUrl(tab.url)) {
-        console.warn("Bolt FrameDrop can capture only http:// and https:// pages.");
+        console.warn("FrameDrop can capture only http:// and https:// pages.");
         return;
     }
 
@@ -45,7 +45,7 @@ const captureTab = async (tab) => {
             throw new Error(result.error);
         }
     } catch (error) {
-        console.error("Bolt FrameDrop failed", error);
+        console.error("FrameDrop failed", error);
     }
 };
 
