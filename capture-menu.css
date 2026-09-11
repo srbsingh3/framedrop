@@ -71,9 +71,75 @@ main {
     margin-bottom: 22px;
 }
 
+.brand-wrap {
+    display: inline-flex;
+    position: relative;
+}
+
 .brand-mark {
     display: block;
     flex-shrink: 0;
+    transform-origin: 60% 70%;
+}
+
+.brand-mark:hover {
+    animation: brand-wink 480ms ease-in-out;
+}
+
+@keyframes brand-wink {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    35% {
+        transform: rotate(-12deg) scale(1.08);
+    }
+    65% {
+        transform: rotate(8deg) scale(1.08);
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+.brand-credit {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 500;
+    left: 0;
+    opacity: 0;
+    padding: 4px 8px;
+    pointer-events: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    transition: opacity 140ms ease, transform 140ms ease;
+    transform: translateY(-4px);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.brand-wrap:hover .brand-credit {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 480ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-mark:hover {
+        animation: none;
+    }
+
+    .brand-credit {
+        transform: none;
+        transition: opacity 120ms ease;
+    }
+
+    .brand-wrap:hover .brand-credit {
+        transition-delay: 0s;
+    }
 }
 
 h1 {
