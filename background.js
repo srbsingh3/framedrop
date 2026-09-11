@@ -50,6 +50,14 @@ const captureTab = async (tab, mode = CAPTURE_MODES.CURRENT) => {
         throw new Error("FrameDrop can capture only http:// and https:// pages.");
     }
 
+    // The clipboard write inside the capture runtime waits for the page to have focus.
+    // When capture is triggered from the action popup, the popup (not the page) holds
+    // focus, so refocus the tab's window first — this also dismisses the popup, which
+    // is what actually hands focus back to the page.
+    if (tab.windowId !== undefined) {
+        await chrome.windows.update(tab.windowId, {focused: true});
+    }
+
     try {
         const result = await runCapture(tabId, mode);
 
