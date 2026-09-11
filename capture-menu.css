@@ -107,7 +107,8 @@ h1 {
     gap: 12px;
     padding: 11px 12px;
     text-align: left;
-    transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+    transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease,
+        transform 90ms ease;
     width: 100%;
 }
 
@@ -115,6 +116,7 @@ h1 {
     background: var(--surface-hover);
     border-color: var(--border-hover);
     box-shadow: var(--shadow-hover);
+    transform: translateY(-0.5px);
 }
 
 .capture-option:focus-visible {
@@ -125,6 +127,7 @@ h1 {
 
 .capture-option:active {
     box-shadow: var(--shadow);
+    transform: scale(0.997);
 }
 
 .capture-option:disabled {
@@ -202,6 +205,17 @@ kbd {
 .status:empty {
     margin: 0;
     min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .capture-option {
+        transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+    }
+
+    .capture-option:hover,
+    .capture-option:active {
+        transform: none;
+    }
 }
 
 .status[data-error="true"] {
