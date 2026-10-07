@@ -1,69 +1,55 @@
 # FrameDrop
 
-A small Chrome extension that copies the current page into Figma as editable layers.
+![FrameDrop turns a web page into editable Figma layers](store-assets/marquee-promo-tile.png)
 
-Owner and maintainer: Saurabh Singh.
+Copy the current web page into Figma as editable layers.
 
-It works on normal `http://` and `https://` pages. There is no settings UI or account flow.
+[Install FrameDrop from the Chrome Web Store](https://chromewebstore.google.com/detail/framedrop/dkdlfcbganhmbjbndnnknfiadfoinepb?utm_source=github)
 
-## Install
+FrameDrop works on the page you have open — no account, settings, or background monitoring. It supports normal `http://` and `https://` pages.
 
-1. Open `chrome://extensions`.
-2. Turn on **Developer mode**.
-3. Click **Load unpacked**.
-4. Select this FrameDrop folder.
-5. Pin **FrameDrop** from Chrome's Extensions menu if you want the toolbar button visible.
+## Capture a page
 
-## Use
+1. Open the page and reach the exact UI state you want to bring into Figma.
+2. Click the FrameDrop extension icon and choose a capture mode:
+   - **Copy as-is** keeps the page arranged exactly as it is now.
+   - **Copy full page** temporarily opens clipped or scrollable sections, captures them, then restores the page.
+3. Wait for the green check, then paste into Figma with **Cmd+V**.
 
-1. Open the page and reach the exact UI state you want.
-2. Click the extension icon and choose a capture mode:
-   - **Current layout** preserves the page as it is arranged now.
-   - **Expanded layout** temporarily opens clipped or scrollable sections, captures them, then restores the page.
-   You can also press **Option+Shift+F** for Current layout or **Option+Shift+G** for Expanded layout. Shortcuts are best for open menus and popovers.
-3. Wait for the green check and confirmation message.
-4. Paste into Figma with **Cmd+V**.
+For open menus and popovers, use the shortcuts instead: **Option+Shift+F** for Copy as-is and **Option+Shift+G** for Copy full page. If a shortcut is already assigned, change it at `chrome://extensions/shortcuts`.
 
-If the shortcut is already assigned, open `chrome://extensions/shortcuts` and assign **Option+Shift+F** (or another shortcut) to **FrameDrop**.
+![FrameDrop capture menu showing Copy as-is and Copy full page](store-assets/framedrop-capture-menu.png)
 
 ## Privacy and security
 
-- The extension requests `activeTab`, not permanent access to every website.
-- It runs only after you click its icon or use its configured shortcut.
-- FrameDrop uses only Figma's clipboard capture path.
-- The capture runtime runs in Chrome's isolated extension world, so the page cannot invoke or replace it.
-- Capture the page only when you are allowed to copy its content into Figma.
-- Check for customer data, credentials, tokens, private messages, or other sensitive content before capturing.
-- The bundled Figma capture runtime may read linked page assets in order to reconstruct the design.
+- FrameDrop requests `activeTab`, rather than permanent access to every website.
+- It runs only after you click the icon or use a configured shortcut.
+- Capture stays on your device and uses Figma's clipboard capture path; there is no account, analytics, cloud sync, or background monitoring.
+- The bundled capture runtime does not download or execute newer remote code while you capture a page.
+- Capture only content you are allowed to copy. Check for customer data, credentials, tokens, private messages, and other sensitive information first.
 
-## Expected limitations
+Read the full [privacy policy](PRIVACY.md).
 
-Chrome blocks extensions on browser-owned pages such as `chrome://` and the Chrome Web Store. Cross-origin iframes, canvas/WebGL, video, browser PDF viewers, closed shadow roots, and some protected assets may not convert faithfully. The result is a design reconstruction, not a pixel-perfect screenshot.
+## What to expect
 
-## Pinned runtime
+FrameDrop creates a design reconstruction, not a pixel-perfect screenshot. Chrome blocks extensions on browser-owned pages such as `chrome://` and the Chrome Web Store. Cross-origin iframes, canvas/WebGL, video, browser PDF viewers, closed shadow roots, and protected assets may not convert faithfully.
 
-FrameDrop ships one reviewed copy of Figma's capture runtime. It does not check for, download, or execute newer runtime code while someone captures a page.
+## Develop locally
 
-If Figma makes a breaking change, updating this copy is a deliberate new extension release: review the code, rebuild the package, and publish a new version through the Chrome Web Store.
+For development or contributing, you can load the checkout directly:
 
-## Package
+1. Open `chrome://extensions`.
+2. Turn on **Developer mode**.
+3. Click **Load unpacked** and select this FrameDrop folder.
 
-Build the store zip with:
+Build the Chrome Web Store package with:
 
 ```sh
 bash scripts/package-extension.sh
 ```
 
-The package contains only the manifest, background script, capture entry point, vendored runtime, and icons.
-
-## Manual test
-
-1. Load the unpacked folder in Chrome.
-2. Open a normal `http://` or `https://` page.
-3. Click the extension icon and test both capture modes, or use **Option+Shift+F** and **Option+Shift+G**.
-4. Wait for the green check.
-5. Paste into Figma and confirm the page structure appears as editable layers.
+The package contains only the manifest, background script, capture entry point, vendored runtime, and icons. See [RUNTIME_SOURCE.md](RUNTIME_SOURCE.md) for the pinned capture-runtime source.
 
 ## Uninstall
 
-Remove **FrameDrop** from `chrome://extensions`, then delete this folder.
+Remove **FrameDrop** from `chrome://extensions`.
