@@ -76,9 +76,10 @@ test("runtime assertion fails closed if a forbidden capability returns", async (
 });
 
 test("extension keeps the minimum permission and execution-world contract", async () => {
-    const [background, captureEntry, manifestSource] = await Promise.all([
+    const [background, captureEntry, menuSource, manifestSource] = await Promise.all([
         readFile(new URL("../background.js", import.meta.url), "utf8"),
         readFile(new URL("../capture-entry.js", import.meta.url), "utf8"),
+        readFile(new URL("../capture-menu.html", import.meta.url), "utf8"),
         readFile(new URL("../manifest.json", import.meta.url), "utf8"),
     ]);
     const manifest = JSON.parse(manifestSource);
@@ -88,10 +89,14 @@ test("extension keeps the minimum permission and execution-world contract", asyn
     assert.equal(manifest.content_scripts, undefined);
     assert.equal(manifest.web_accessible_resources, undefined);
     assert.doesNotMatch(background, /world:\s*"MAIN"/);
-    assert.equal((background.match(/world:\s*"ISOLATED"/g) ?? []).length, 1);
+    assert.equal((background.match(/world:\s*"ISOLATED"/g) ?? []).length, 2);
     assert.match(background, /files:\s*\[CAPTURE_RUNTIME_FILE, CAPTURE_ENTRY_FILE\]/);
     assert.match(background, /executions\[0\]\?\.result/);
+    assert.match(background, /capture-expanded-layout/);
     assert.doesNotMatch(background, /file:\/\//);
+    assert.equal(manifest.action.default_popup, "capture-menu.html");
+    assert.match(menuSource, /data-capture-mode="current"/);
+    assert.match(menuSource, /data-capture-mode="expanded"/);
     assert.match(captureEntry, /^\(\(\) => \{/);
     assert.doesNotMatch(captureEntry, /^const CAPTURE_/m);
     assert.doesNotMatch(captureEntry, /void\s*\(async/);

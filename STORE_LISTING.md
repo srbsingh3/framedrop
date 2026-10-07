@@ -10,7 +10,7 @@ Long description:
 
 FrameDrop is a one-click capture tool for the active `http://` or `https://` page.
 
-Use the extension icon or `Alt+Shift+F` to copy the current page body to the local clipboard, then paste it into Figma.
+Click the extension icon and choose a capture mode: Copy as-is preserves the page exactly as arranged, and Copy full page temporarily opens clipped or scrollable sections before capturing. Either copies to the local clipboard for pasting into Figma. You can also use `Alt+Shift+F` (Copy as-is) or `Alt+Shift+G` (Copy full page) directly, without opening the menu.
 
 The extension uses only `activeTab` and `scripting`.
 
