@@ -14,6 +14,8 @@ The capture is created on your device and copied to your local clipboard. FrameD
 
 The capture may request page-referenced assets directly from their original locations so the design can be reconstructed. It does not use a proxy for those requests.
 
+If an image on screen cannot be downloaded, FrameDrop may take a screenshot of the visible page and use the part showing that image instead. The screenshot stays on your device, is used only for that capture, and is not saved.
+
 Nothing is sent to Figma until you choose to paste the result there. At that point, the content is handled by your Figma account and its applicable policies.
 
 FrameDrop uses website content only to provide the capture you explicitly start. It does not sell or transfer that content to third parties, use it for advertising or profiling, or use it for any purpose unrelated to the capture.

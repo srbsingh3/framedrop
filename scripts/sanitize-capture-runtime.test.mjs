@@ -90,7 +90,7 @@ test("extension keeps the minimum permission and execution-world contract", asyn
     assert.equal(manifest.web_accessible_resources, undefined);
     assert.doesNotMatch(background, /world:\s*"MAIN"/);
     assert.equal((background.match(/world:\s*"ISOLATED"/g) ?? []).length, 2);
-    assert.match(background, /files:\s*\[CAPTURE_RUNTIME_FILE, CAPTURE_ENTRY_FILE\]/);
+    assert.match(background, /files:\s*\[CAPTURE_IMAGE_FALLBACK_FILE, CAPTURE_RUNTIME_FILE, CAPTURE_ENTRY_FILE\]/);
     assert.match(background, /executions\[0\]\?\.result/);
     assert.match(background, /capture-expanded-layout/);
     assert.doesNotMatch(background, /file:\/\//);

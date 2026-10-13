@@ -7,17 +7,20 @@ EXTENSION_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 MANIFEST_PATH="$EXTENSION_DIR/manifest.json"
 BACKGROUND_PATH="$EXTENSION_DIR/background.js"
 CAPTURE_ENTRY_PATH="$EXTENSION_DIR/capture-entry.js"
+CAPTURE_IMAGE_FALLBACK_PATH="$EXTENSION_DIR/capture-image-fallback.js"
 CAPTURE_MENU_SCRIPT_PATH="$EXTENSION_DIR/capture-menu.js"
 RUNTIME_PATH="$EXTENSION_DIR/vendor/figma-capture.js"
 RUNTIME_NOTE_PATH="$EXTENSION_DIR/RUNTIME_SOURCE.md"
 SANITIZER_PATH="$EXTENSION_DIR/scripts/sanitize-capture-runtime.mjs"
 SANITIZER_TEST_PATH="$EXTENSION_DIR/scripts/sanitize-capture-runtime.test.mjs"
+IMAGE_FALLBACK_TEST_PATH="$EXTENSION_DIR/scripts/capture-image-fallback.test.mjs"
 DIST_DIR="$EXTENSION_DIR/dist"
 
 ALLOWLIST=(
     "manifest.json"
     "background.js"
     "capture-entry.js"
+    "capture-image-fallback.js"
     "capture-menu.html"
     "capture-menu.js"
     "capture-menu.css"
@@ -76,9 +79,10 @@ done
 python3 -m json.tool "$MANIFEST_PATH" >/dev/null
 node --check "$BACKGROUND_PATH"
 node --check "$CAPTURE_ENTRY_PATH"
+node --check "$CAPTURE_IMAGE_FALLBACK_PATH"
 node --check "$CAPTURE_MENU_SCRIPT_PATH"
 node --check "$SANITIZER_PATH"
-node --test "$SANITIZER_TEST_PATH"
+node --test "$SANITIZER_TEST_PATH" "$IMAGE_FALLBACK_TEST_PATH"
 
 actual_runtime_sha="$(shasum -a 256 "$RUNTIME_PATH" | awk '{print $1}')"
 if [[ "$actual_runtime_sha" != "$expected_runtime_sha" ]]; then
@@ -118,6 +122,7 @@ allowlist = [
     "manifest.json",
     "background.js",
     "capture-entry.js",
+    "capture-image-fallback.js",
     "capture-menu.html",
     "capture-menu.js",
     "capture-menu.css",
