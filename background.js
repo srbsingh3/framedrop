@@ -1,3 +1,4 @@
+const CAPTURE_IMAGE_FALLBACK_FILE = "capture-image-fallback.js";
 const CAPTURE_RUNTIME_FILE = "vendor/figma-capture.js";
 const CAPTURE_ENTRY_FILE = "capture-entry.js";
 const CAPTURE_MODES = {
@@ -23,7 +24,7 @@ const runCapture = async (tabId, mode) => {
     const executions = await chrome.scripting.executeScript({
         target: {tabId},
         world: "ISOLATED",
-        files: [CAPTURE_RUNTIME_FILE, CAPTURE_ENTRY_FILE],
+        files: [CAPTURE_IMAGE_FALLBACK_FILE, CAPTURE_RUNTIME_FILE, CAPTURE_ENTRY_FILE],
     });
 
     const result = executions[0]?.result;
@@ -89,7 +90,18 @@ chrome.commands.onCommand.addListener((command) => {
     void captureActiveTab(mode);
 });
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    // The image fallback asks for a screenshot when an on-screen image cannot be downloaded.
+    // activeTab, granted when the user starts a capture, covers captureVisibleTab.
+    if (message?.type === "capture-visible-tab") {
+        chrome.tabs
+            .captureVisibleTab(sender.tab?.windowId, {format: "png"})
+            .then((dataUrl) => sendResponse({dataUrl}))
+            .catch(() => sendResponse({}));
+
+        return true;
+    }
+
     if (message?.type !== "capture") {
         return;
     }

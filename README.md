@@ -48,7 +48,7 @@ Build the Chrome Web Store package with:
 bash scripts/package-extension.sh
 ```
 
-The package contains only the manifest, background script, capture entry point, vendored runtime, and icons. See [RUNTIME_SOURCE.md](RUNTIME_SOURCE.md) for the pinned capture-runtime source.
+The package contains only the manifest, background script, capture menu, capture entry point, image fallback, vendored runtime, and icons. See [RUNTIME_SOURCE.md](RUNTIME_SOURCE.md) for the pinned capture-runtime source.
 
 ## Uninstall
 
